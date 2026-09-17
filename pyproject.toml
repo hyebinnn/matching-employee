@@ -1,0 +1,26 @@
+[project]
+name = "matching-employee"
+version = "0.1.0"
+description = "지원자-공고 매칭 스코어링 엔진"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2",
+    "openai",
+    "python-dotenv",
+    "pyyaml",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "httpx",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
