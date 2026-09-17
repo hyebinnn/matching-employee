@@ -17,9 +17,15 @@ dev = [
     "pytest",
     "httpx",
 ]
+parsing = [
+    "pillow>=12.3.0",
+    "pytesseract>=0.3.13",
+]
 
 [tool.uv]
 package = false
+# parsing 그룹은 가벼운 래퍼뿐이라 기본 설치에 포함 (tesseract 본체는 시스템 설치 필요)
+default-groups = ["dev", "parsing"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

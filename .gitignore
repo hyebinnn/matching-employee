@@ -9,8 +9,9 @@ __pycache__/
 .env.*
 !.env.example
 
-# 임베딩 캐시
+# 임베딩/파싱 캐시, OCR 언어 데이터
 data/cache/
+data/tessdata/
 
 # OS / 에디터
 .DS_Store
