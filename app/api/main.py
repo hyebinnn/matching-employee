@@ -1,11 +1,13 @@
 """FastAPI 앱. 실행: uv run uvicorn app.api.main:app --reload"""
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Annotated
 
 import openai
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.responses import FileResponse
 
 from app.cache import EmbeddingCache
 from app.domain.models import JobPosting, MatchResult
@@ -17,7 +19,14 @@ from app.repository import JsonRepository
 
 load_dotenv()
 
+INDEX_HTML = Path(__file__).resolve().parents[1] / "web" / "index.html"
+
 app = FastAPI(title="지원자-공고 매칭 스코어링 엔진")
+
+
+@app.get("/", include_in_schema=False)
+def index() -> FileResponse:
+    return FileResponse(INDEX_HTML)
 
 
 @lru_cache

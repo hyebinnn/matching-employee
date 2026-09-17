@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지원자-공고 매칭</title>
+<style>
+  :root {
+    --bg: #f6f6f4; --panel: #fff; --ink: #1c1c1c; --muted: #6b6b6b; --line: #e2e2de;
+    --met: #1f7a3f; --met-bg: #e3f3e8; --partial: #8a5a00; --partial-bg: #fbf0d9;
+    --unmet: #9b2c2c; --unmet-bg: #f8e3e3; --accent: #2c5aa0; --selected: #eaf0fa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161718; --panel: #1f2022; --ink: #e8e8e6; --muted: #9a9a96; --line: #333436;
+      --met: #7fd19b; --met-bg: #1d3325; --partial: #e6c070; --partial-bg: #3a3020;
+      --unmet: #ef9a9a; --unmet-bg: #3a2324; --accent: #8fb4ea; --selected: #243044;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.55 -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 60px; }
+  h1 { font-size: 20px; margin: 0 0 16px; }
+  h2 { font-size: 15px; margin: 0 0 10px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .muted { color: var(--muted); }
+  select { font: inherit; padding: 6px 8px; min-width: 260px; max-width: 100%; }
+  .layout { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .ranking tbody tr { cursor: pointer; }
+  .ranking tbody tr:hover { background: var(--selected); }
+  .ranking tbody tr.selected { background: var(--selected); }
+  .score { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .badge.met { color: var(--met); background: var(--met-bg); }
+  .badge.partial { color: var(--partial); background: var(--partial-bg); }
+  .badge.unmet { color: var(--unmet); background: var(--unmet-bg); }
+  .badge.type { color: var(--muted); border: 1px solid var(--line); font-weight: 500; }
+  .cap { color: var(--unmet); font-size: 12px; }
+  .req-list { margin: 8px 0 0; padding-left: 18px; }
+  .req-list li { margin: 3px 0; }
+  .result { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  .result:last-child { border-bottom: 0; }
+  .result-head { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .result-text { font-weight: 600; flex: 1 1 200px; }
+  .meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .evidence { margin: 6px 0 0; padding: 6px 10px; border-left: 3px solid var(--met); background: var(--met-bg); border-radius: 0 4px 4px 0; }
+  .evidence.partial { border-color: var(--partial); background: var(--partial-bg); }
+  details.nearest { margin-top: 6px; color: var(--muted); font-size: 13px; }
+  details.nearest summary { cursor: pointer; }
+  details.nearest blockquote { margin: 4px 0 0; padding: 4px 10px; border-left: 3px dashed var(--line); }
+  .error { color: var(--unmet); }
+</style>
+</head>
+<body>
+<main>
+  <h1>지원자-공고 매칭</h1>
+
+  <section class="panel">
+    <label for="job-select"><strong>공고</strong></label>
+    <select id="job-select"></select>
+    <div id="job-info"></div>
+  </section>
+
+  <div class="layout">
+    <section class="panel">
+      <h2>지원자 랭킹</h2>
+      <div id="ranking" class="muted">공고를 선택하세요.</div>
+    </section>
+    <section class="panel">
+      <h2>조건별 판정 근거</h2>
+      <div id="detail" class="muted">지원자를 클릭하면 조건별 판정 결과가 표시됩니다.</div>
+    </section>
+  </div>
+</main>
+
+<script>
+const STATUS_LABEL = { met: "충족", partial: "부분 충족", unmet: "미충족" };
+const TYPE_LABEL = { required: "필수", preferred: "우대" };
+const JUDGED_BY_LABEL = { embedding: "임베딩 유사도", years: "경력 연수 비교", llm: "LLM 판정" };
+
+const $ = (id) => document.getElementById(id);
+let jobs = [];
+let matches = [];
+
+// 모든 사용자 데이터는 textContent로 넣는다 (이력서/공고 원문에 HTML이 섞여도 안전).
+function el(tag, props = {}, children = []) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "text") node.textContent = value;
+    else if (key === "class") node.className = value;
+    else node.setAttribute(key, value);
+  }
+  for (const child of [].concat(children)) if (child != null) node.append(child);
+  return node;
+}
+
+const badge = (status) => el("span", { class: `badge ${status}`, text: STATUS_LABEL[status] });
+const typeBadge = (type) => el("span", { class: "badge type", text: TYPE_LABEL[type] });
+const fmt = (n, digits = 1) => Number(n).toFixed(digits);
+
+async function fetchJson(url) {
+  const response = await fetch(url);
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.detail || `요청 실패 (${response.status})`);
+  return body;
+}
+
+async function loadJobs() {
+  try {
+    jobs = await fetchJson("/jobs");
+  } catch (e) {
+    $("job-info").replaceChildren(el("p", { class: "error", text: e.message }));
+    return;
+  }
+  const select = $("job-select");
+  select.replaceChildren(...jobs.map((job) => el("option", { value: job.id, text: `${job.title} · ${job.company}` })));
+  if (jobs.length) await selectJob(jobs[0].id);
+  else $("job-info").replaceChildren(el("p", { class: "muted", text: "등록된 공고가 없습니다." }));
+}
+
+function currentJob() {
+  return jobs.find((job) => job.id === $("job-select").value);
+}
+
+async function selectJob(jobId) {
+  const job = jobs.find((j) => j.id === jobId);
+  $("job-info").replaceChildren(
+    job.source_url ? el("p", {}, el("a", { href: job.source_url, target: "_blank", rel: "noopener", text: "공고 원문" })) : "",
+    el("ul", { class: "req-list" }, job.requirements.map((r) => el("li", {}, [typeBadge(r.type), " ", r.text]))),
+  );
+  $("detail").replaceChildren("지원자를 클릭하면 조건별 판정 결과가 표시됩니다.");
+  $("detail").className = "muted";
+  $("ranking").className = "muted";
+  $("ranking").replaceChildren("매칭 계산 중… (처음 실행 시 임베딩 API 호출로 몇 초 걸릴 수 있습니다)");
+
+  try {
+    matches = await fetchJson(`/jobs/${encodeURIComponent(jobId)}/matches`);
+  } catch (e) {
+    if ($("job-select").value !== jobId) return;
+    $("ranking").replaceChildren(el("p", { class: "error", text: e.message }));
+    return;
+  }
+  if ($("job-select").value !== jobId) return; // 응답 도착 전에 다른 공고를 고른 경우
+  renderRanking();
+}
+
+function renderRanking() {
+  const container = $("ranking");
+  container.className = "";
+  if (!matches.length) {
+    container.replaceChildren(el("p", { class: "muted", text: "이 공고에 등록된 지원자가 없습니다." }));
+    return;
+  }
+  const rows = matches.map((m, i) => {
+    const counts = { met: 0, partial: 0, unmet: 0 };
+    m.results.forEach((r) => counts[r.status]++);
+    const rawScore = m.results.reduce((sum, r) => sum + r.points, 0);
+    const row = el("tr", { "data-id": m.candidate_id }, [
+      el("td", { class: "num", text: String(i + 1) }),
+      el("td", {}, [
+        el("div", { text: m.candidate_name }),
+        el("div", { class: "meta", text: `충족 ${counts.met} · 부분 ${counts.partial} · 미충족 ${counts.unmet}` }),
+      ]),
+      el("td", { class: "num" }, [
+        el("div", { class: "score", text: fmt(m.score) }),
+        m.applied_cap != null ? el("div", { class: "cap", text: `원점수 ${fmt(rawScore)} → 상한 ${fmt(m.applied_cap, 0)}` }) : null,
+      ]),
+    ]);
+    row.addEventListener("click", () => renderDetail(m.candidate_id));
+    return row;
+  });
+  container.replaceChildren(
+    el("table", { class: "ranking" }, [
+      el("thead", {}, el("tr", {}, [el("th", { class: "num", text: "순위" }), el("th", { text: "이름" }), el("th", { class: "num", text: "점수" })])),
+      el("tbody", {}, rows),
+    ]),
+  );
+}
+
+function renderDetail(candidateId) {
+  const match = matches.find((m) => m.candidate_id === candidateId);
+  const requirements = Object.fromEntries(currentJob().requirements.map((r) => [r.id, r]));
+  document.querySelectorAll(".ranking tbody tr").forEach((tr) => tr.classList.toggle("selected", tr.dataset.id === candidateId));
+
+  const header = el("p", {}, [
+    el("strong", { text: match.candidate_name }),
+    ` · 점수 ${fmt(match.score)}`,
+    match.applied_cap != null ? el("span", { class: "cap", text: ` (필수 조건 미충족으로 상한 ${fmt(match.applied_cap, 0)} 적용)` }) : null,
+  ]);
+
+  const items = match.results.map((r) => {
+    const requirement = requirements[r.requirement_id];
+    // 유사도 값은 reason에 이미 포함되어 있어 따로 표시하지 않는다.
+    const metaParts = [JUDGED_BY_LABEL[r.judged_by] ?? r.judged_by, `기여 ${fmt(r.points)}점`];
+
+    let evidence = null;
+    if (r.evidence && r.status !== "unmet") {
+      evidence = el("div", { class: `evidence ${r.status}`, text: r.evidence });
+    } else if (r.evidence) {
+      // 미충족 조건의 가장 가까운 문장은 충족 근거로 오해하지 않도록 접어서 흐리게 보여준다.
+      evidence = el("details", { class: "nearest" }, [
+        el("summary", { text: "가장 가까운 문장 보기 (충족 근거 아님)" }),
+        el("blockquote", { text: r.evidence }),
+      ]);
+    }
+
+    return el("div", { class: "result" }, [
+      el("div", { class: "result-head" }, [
+        badge(r.status),
+        typeBadge(requirement?.type),
+        el("span", { class: "result-text", text: requirement?.text ?? r.requirement_id }),
+      ]),
+      el("div", { class: "meta", text: `${metaParts.join(" · ")} — ${r.reason}` }),
+      evidence,
+    ]);
+  });
+
+  $("detail").className = "";
+  $("detail").replaceChildren(header, ...items);
+}
+
+$("job-select").addEventListener("change", (e) => selectJob(e.target.value));
+loadJobs();
+</script>
+</body>
+</html>
