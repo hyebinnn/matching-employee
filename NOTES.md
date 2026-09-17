@@ -45,10 +45,32 @@ pytest
 uv export --format requirements-txt --no-hashes --no-dev -o requirements.txt
 ```
 
+## 공고 이미지 파싱 (선택 — 파싱 결과 JSON은 커밋되어 있어 매칭 실행에는 필요 없음)
+
+```bash
+brew install tesseract
+mkdir -p data/tessdata
+curl -L -o data/tessdata/kor.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/kor.traineddata
+curl -L -o data/tessdata/eng.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/eng.traineddata
+```
+
+1. `data/raw/{job_id}/meta.json` (`title`, `company`, `source_url`) 과 `data/raw/{job_id}/images/*` 준비
+2. `config/parsing.yaml`의 `vision.model` 설정
+3. 실행
+
+```bash
+uv run python -m app.parsing.cli {job_id} --dry-run            # 결과만 확인
+uv run python -m app.parsing.cli {job_id} --include r03        # 미검증 조건을 확인 후 포함해 저장
+```
+
+- 결과: `data/jobs/{job_id}.json`, 검증 리포트 `data/parsed/{job_id}.report.json`, OCR 원문 `data/parsed/{job_id}.ocr.txt`
+- 비전 LLM 응답은 `data/cache/parse/`에 캐시되어 재실행 시 과금되지 않고 조건 id도 유지됨
+
 ## 데이터 / 설정 위치
 
 - 공고: `data/jobs/{job_id}.json` (파일명 = 공고 id)
 - 지원자: `data/resumes/{job_id}/{candidate_id}.json`
 - 점수 정책(임계값, 가중치, cap): `config/scoring.yaml` — 수정 후 서버 재시작
+- 파싱 설정(비전 모델, 이미지 분할, OCR, 검증 기준): `config/parsing.yaml`
 - 임베딩 캐시: `data/cache/embeddings/` — 같은 텍스트는 API를 다시 호출하지 않음. 지우면 다음 실행 때 다시 임베딩
 - `fixture_` 접두사 데이터는 파이프라인 확인용 임시 데이터 (제출용 목업 이력서 아님)
