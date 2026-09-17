@@ -1,6 +1,6 @@
 """점수 계산: 가중치 × status 반영 비율 정규화, 필수 조건 미충족 시 cap.
 
-config/scoring.yaml의 임시값이 바뀌어도 테스트가 깨지지 않도록 설정은 테스트 안에서 직접 만든다.
+config/scoring.yaml의 임시값이 바뀌어도 테스트가 깨지지 않도록 설정은 make_config로 직접 만든다.
 """
 
 import pytest
@@ -8,24 +8,9 @@ import pytest
 from app.domain.models import Candidate, JudgedBy, Judgement, MatchStatus, Requirement
 from app.matching.config import ScoringConfig
 from app.matching.scorer import score_candidate
+from tests.fakes import make_config as _config
 
 MET, PARTIAL, UNMET = MatchStatus.MET, MatchStatus.PARTIAL, MatchStatus.UNMET
-
-
-def _config(unmet_cap: bool = True, partial_cap: bool = True) -> ScoringConfig:
-    return ScoringConfig.model_validate(
-        {
-            "embedding": {"model": "fake"},
-            "thresholds": {"met": 0.75, "partial": 0.55},
-            "weights": {"required": 2.0, "preferred": 1.0},
-            "status_credit": {"met": 1.0, "partial": 0.5, "unmet": 0.0},
-            "years": {"partial_ratio": 0.7},
-            "required_cap": {
-                "unmet": {"enabled": unmet_cap, "cap": 40},
-                "partial": {"enabled": partial_cap, "cap": 70},
-            },
-        }
-    )
 
 
 def _score(required: list[MatchStatus], preferred: list[MatchStatus], config: ScoringConfig | None = None):

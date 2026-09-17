@@ -3,6 +3,8 @@
 import hashlib
 import re
 
+from app.matching.config import ScoringConfig
+
 _TOKEN = re.compile(r"[0-9A-Za-z가-힣]+")
 
 
@@ -30,3 +32,25 @@ class FakeEmbedder:
             index = int(hashlib.md5(token.encode("utf-8")).hexdigest(), 16) % self.dim
             vector[index] += 1.0
         return vector
+
+
+def make_config(
+    met: float = 0.75,
+    partial: float = 0.55,
+    unmet_cap: bool = True,
+    partial_cap: bool = True,
+) -> ScoringConfig:
+    """config/scoring.yaml의 임시값에 의존하지 않는 테스트용 설정."""
+    return ScoringConfig.model_validate(
+        {
+            "embedding": {"model": FakeEmbedder.model},
+            "thresholds": {"met": met, "partial": partial},
+            "weights": {"required": 2.0, "preferred": 1.0},
+            "status_credit": {"met": 1.0, "partial": 0.5, "unmet": 0.0},
+            "years": {"partial_ratio": 0.7},
+            "required_cap": {
+                "unmet": {"enabled": unmet_cap, "cap": 40},
+                "partial": {"enabled": partial_cap, "cap": 70},
+            },
+        }
+    )
