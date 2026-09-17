@@ -18,13 +18,16 @@ class Embedder(Protocol):
 class OpenAIEmbedder:
     def __init__(self, model: str, client: OpenAI | None = None, batch_size: int = 100) -> None:
         self.model = model
-        # client를 넘기지 않으면 OPENAI_API_KEY 환경변수를 사용한다.
-        self._client = client or OpenAI()
+        self._client = client
         self._batch_size = batch_size
 
     def embed(self, texts: list[str]) -> list[list[float]]:
         if any(not t.strip() for t in texts):
             raise ValueError("빈 텍스트는 임베딩할 수 없음")
+        # client는 실제 호출이 필요할 때 만든다. 캐시로 모두 해결되면 API 키 없이도 동작한다.
+        # 넘겨받은 client가 없으면 OPENAI_API_KEY 환경변수를 사용한다.
+        if self._client is None:
+            self._client = OpenAI()
         vectors: list[list[float]] = []
         for start in range(0, len(texts), self._batch_size):
             batch = texts[start : start + self._batch_size]

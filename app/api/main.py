@@ -1,0 +1,57 @@
+"""FastAPI 앱. 실행: uv run uvicorn app.api.main:app --reload"""
+
+from functools import lru_cache
+from typing import Annotated
+
+import openai
+from dotenv import load_dotenv
+from fastapi import Depends, FastAPI, HTTPException
+
+from app.cache import EmbeddingCache
+from app.domain.models import JobPosting, MatchResult
+from app.matching.config import load_config
+from app.matching.embedder import CachedEmbedder, OpenAIEmbedder
+from app.matching.judge import EmbeddingJudge, YearsJudge
+from app.matching.service import MatchingService
+from app.repository import JsonRepository
+
+load_dotenv()
+
+app = FastAPI(title="지원자-공고 매칭 스코어링 엔진")
+
+
+@lru_cache
+def get_repository() -> JsonRepository:
+    return JsonRepository()
+
+
+@lru_cache
+def get_service() -> MatchingService:
+    config = load_config()
+    embedder = CachedEmbedder(OpenAIEmbedder(config.embedding.model), EmbeddingCache())
+    return MatchingService(EmbeddingJudge(embedder, config.thresholds), YearsJudge(config.years), config)
+
+
+Repository = Annotated[JsonRepository, Depends(get_repository)]
+Service = Annotated[MatchingService, Depends(get_service)]
+
+
+@app.get("/jobs")
+def list_jobs(repository: Repository) -> list[JobPosting]:
+    return repository.list_jobs()
+
+
+# OpenAI 호출이 블로킹이므로 async가 아닌 def로 두어 스레드풀에서 실행되게 한다.
+@app.get("/jobs/{job_id}/matches")
+def get_matches(job_id: str, repository: Repository, service: Service) -> list[MatchResult]:
+    job = repository.get_job(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail=f"공고를 찾을 수 없음: {job_id}")
+    try:
+        return service.rank(job, repository.list_candidates(job_id))
+    except openai.OpenAIError as e:
+        # 예외 메시지에 요청 정보가 섞일 수 있어 응답에는 종류만 노출한다.
+        raise HTTPException(
+            status_code=503,
+            detail=f"임베딩 API 호출 실패({type(e).__name__}). .env의 OPENAI_API_KEY 설정을 확인하세요.",
+        ) from e
