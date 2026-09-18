@@ -40,7 +40,7 @@ curl -L -o data/tessdata/kor.traineddata https://github.com/tesseract-ocr/tessda
 curl -L -o data/tessdata/eng.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/eng.traineddata
 ```
 
-공고 원본 이미지는 타사 저작물이라 커밋하지 않았다(`data/raw/`는 gitignore). 다시 파싱하려면 직접 준비한다.
+사람인 API 승인이 나지 않아 재현성을 위해 이 과제에서만 공고 이미지를 `data/raw/`에 포함했다. 출처는 각 `meta.json`의 `source_url`이다.
 
 1. `data/raw/{job_id}/meta.json` (`title`, `company`, `source_url`) 과 `data/raw/{job_id}/images/*` 준비
 2. `config/parsing.yaml`의 `vision.model` 설정
