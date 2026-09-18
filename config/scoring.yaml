@@ -47,7 +47,7 @@ llm_judge:
   enabled: true
   model: gpt-5.4-mini
   band:
-    low: 0.35
+    low: 0.3
     high: 0.65
   # LLM이 인용한 근거 문장이 이력서 원문에 실제로 있는지 확인하는 기준
   evidence_min_similarity: 0.8
