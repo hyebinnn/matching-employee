@@ -5,10 +5,12 @@ embedding:
   model: text-embedding-3-small
 
 # 코사인 유사도 기준 판정 (similarity >= met → met, >= partial → partial, 그 외 unmet)
-# 목업 이력서 12명의 유사도 분포로 조정한 값 (미스매칭 0.20~0.37, 완벽 매칭 0.28~0.96)
+# 목업 이력서 12명의 라벨로 조합을 비교해 고른 값 (uv run python -m tools.evaluate --sweep)
+# LLM 재판정을 껐을 때의 순위 역전을 기준으로 삼았다. LLM을 켜면 두 값 모두 역전 0회지만,
+# LLM이 없거나 실패했을 때의 품질이 이 값에 달려 있다.
 thresholds:
-  met: 0.65
-  partial: 0.35
+  met: 0.7
+  partial: 0.3
 
 # 조건 유형별 가중치 (상대 비율만 의미 있음)
 weights:
@@ -55,6 +57,6 @@ llm_judge:
   model: gpt-5.4-mini
   band:
     low: 0.0
-    high: 0.65
+    high: 0.7
   # LLM이 인용한 근거 문장이 이력서 원문에 실제로 있는지 확인하는 기준
   evidence_min_similarity: 0.8
