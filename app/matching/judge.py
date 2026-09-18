@@ -49,7 +49,7 @@ class EmbeddingJudge:
 
         judgements = []
         for requirement, req_vec in zip(requirements, requirement_vectors, strict=True):
-            similarities = [_cosine(req_vec, chunk_vec) for chunk_vec in chunk_vectors]
+            similarities = [cosine(req_vec, chunk_vec) for chunk_vec in chunk_vectors]
             best = max(range(len(chunks)), key=similarities.__getitem__)
             similarity = similarities[best]
             status, reason = self._classify(similarity)
@@ -117,7 +117,7 @@ class YearsJudge:
         )
 
 
-def _cosine(a: list[float], b: list[float]) -> float:
+def cosine(a: list[float], b: list[float]) -> float:
     norm = math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b))
     if norm == 0:
         return 0.0

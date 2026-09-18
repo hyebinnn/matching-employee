@@ -21,5 +21,8 @@ data/tessdata/
 # Claude Code 로컬 설정
 .claude/
 
+# 분석 산출물 (tools/export_vectors.py 로 언제든 재생성)
+data/analysis/
+
 # 공고 원본 이미지 (타사 저작물 — 커밋하지 않음)
 data/raw/

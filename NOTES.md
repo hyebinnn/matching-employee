@@ -66,6 +66,17 @@ uv run python -m app.parsing.cli {job_id} --include r03        # 미검증 조�
 - 결과: `data/jobs/{job_id}.json`, 검증 리포트 `data/parsed/{job_id}.report.json`, OCR 원문 `data/parsed/{job_id}.ocr.txt`
 - 비전 LLM 응답은 `data/cache/parse/`에 캐시되어 재실행 시 과금되지 않고 조건 id도 유지됨
 
+## 분석 도구 (임계값 조정 근거)
+
+```bash
+uv run python -m tools.export_vectors
+```
+
+- `data/analysis/heatmap.html` — 조건 × 지원자 유사도 표 (칸에 마우스를 올리면 매칭된 이력서 문장)
+- `data/analysis/vectors.tsv`, `metadata.tsv` — https://projector.tensorflow.org 에 올려 벡터 공간 확인
+  (Load → 순서대로 두 파일 업로드 → Color by: kind 또는 label)
+- 캐시된 임베딩만 사용하므로 API를 호출하지 않는다.
+
 ## 데이터 / 설정 위치
 
 - 공고: `data/jobs/{job_id}.json` (파일명 = 공고 id)
