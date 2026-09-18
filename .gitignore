@@ -20,3 +20,6 @@ data/tessdata/
 
 # Claude Code 로컬 설정
 .claude/
+
+# 공고 원본 이미지 (타사 저작물 — 커밋하지 않음)
+data/raw/

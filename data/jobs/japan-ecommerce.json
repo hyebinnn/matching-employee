@@ -1,0 +1,43 @@
+{
+  "id": "japan-ecommerce",
+  "title": "일본 이커머스 담당자",
+  "company": "토리든",
+  "source_url": "https://www.saramin.co.kr/zf_user/jobs/relay/view?view_type=list&rec_idx=54858911&t_ref=area_recruit&t_ref_content=grand_fix&t_ref_area=309#seq=0",
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "라쿠텐 등 일본 이커머스 플랫폼에서 MD 운영 경험이 3년 이상이신 분",
+      "type": "required",
+      "min_years": 3
+    },
+    {
+      "id": "r02",
+      "category": "skill",
+      "text": "뷰티/스킨케어 상품 및 SNS 콘텐츠에 대한 관심과 이해도가 있으신 분",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r03",
+      "category": "language",
+      "text": "일본어로 원활한 업무 커뮤니케이션이 가능하신 분",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r04",
+      "category": "experience",
+      "text": "브랜드 공식 라쿠텐 몰 운영 경험을 보유하신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r05",
+      "category": "experience",
+      "text": "일본 뷰티 시장 영업 또는 브랜드 운영 경험을 보유하신 분",
+      "type": "preferred",
+      "min_years": null
+    }
+  ]
+}

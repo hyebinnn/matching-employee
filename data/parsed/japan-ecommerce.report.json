@@ -1,0 +1,71 @@
+{
+  "job_id": "japan-ecommerce",
+  "vision_model": "gpt-5.4-mini",
+  "ocr": {
+    "lang": "kor+eng",
+    "upscale": 1.0,
+    "psm": 6
+  },
+  "verify": {
+    "min_similarity": 0.8
+  },
+  "image_count": 1,
+  "tile_count": 4,
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "라쿠텐 등 일본 이커머스 플랫폼에서 MD 운영 경험이 3년 이상이신 분",
+      "type": "required",
+      "min_years": 3,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "라쿠텐 등 일본 이커머스 플랫폼에서 MD 운영 경험이 3년 이상이신 분",
+      "included": true
+    },
+    {
+      "id": "r02",
+      "category": "skill",
+      "text": "뷰티/스킨케어 상품 및 SNS 콘텐츠에 대한 관심과 이해도가 있으신 분",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 0.862,
+      "verified": true,
+      "matched_ocr_text": "뷰티/스킨케어 상품 및 5845 콘텐츠에 대한 관심과 이해도가 있으신",
+      "included": true
+    },
+    {
+      "id": "r03",
+      "category": "language",
+      "text": "일본어로 원활한 업무 커뮤니케이션이 가능하신 분",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "일본어로 원활한 업무 커뮤니케이션이 가능하신 분",
+      "included": true
+    },
+    {
+      "id": "r04",
+      "category": "experience",
+      "text": "브랜드 공식 라쿠텐 몰 운영 경험을 보유하신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 0.842,
+      "verified": true,
+      "matched_ocr_text": "SHE 공식 라쿠텐 몰 운영 경험을 보유하신 분",
+      "included": true
+    },
+    {
+      "id": "r05",
+      "category": "experience",
+      "text": "일본 뷰티 시장 영업 또는 브랜드 운영 경험을 보유하신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "일본 뷰티 시장 영업 또는 브랜드 운영 경험을 보유하신 분",
+      "included": true
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "id": "designer",
+  "title": "BX/제품 패키지 디자이너",
+  "company": "셀리맥스",
+  "source_url": "https://www.saramin.co.kr/zf_user/jobs/relay/view?view_type=list&rec_idx=54930884&t_ref=area_recruit&t_ref_content=grand_fix&t_ref_area=1028#seq=0",
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "유관 경력 5년 이상 ~ 9년 내외이신 분",
+      "type": "required",
+      "min_years": 5
+    },
+    {
+      "id": "r02",
+      "category": "experience",
+      "text": "패키지 디자인 및 감리 경험이 있으신 분",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r03",
+      "category": "education",
+      "text": "디자인 관련 전공이신 분",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r04",
+      "category": "skill",
+      "text": "유관 부서와 원활한 커뮤니케이션이 가능하신 분",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r05",
+      "category": "experience",
+      "text": "뷰티/스킨케어 브랜드 디자인 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r06",
+      "category": "experience",
+      "text": "제품 디자인과 함께 VMD 및 공간 연출 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r07",
+      "category": "experience",
+      "text": "브랜드 촬영 기획 및 현장 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r08",
+      "category": "experience",
+      "text": "부자재 거래처 협업 및 외주 커뮤니케이션 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r09",
+      "category": "experience",
+      "text": "신제품 디자인부터 양산까지 전반적인 프로세스에 대한 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    }
+  ]
+}

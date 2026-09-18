@@ -1,0 +1,115 @@
+{
+  "job_id": "designer",
+  "vision_model": "gpt-5.4-mini",
+  "ocr": {
+    "lang": "kor+eng",
+    "upscale": 1.0,
+    "psm": 6
+  },
+  "verify": {
+    "min_similarity": 0.8
+  },
+  "image_count": 1,
+  "tile_count": 4,
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "유관 경력 5년 이상 ~ 9년 내외이신 분",
+      "type": "required",
+      "min_years": 5,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "유관 경력 5년 이상 ~ 9년 내외이신 분",
+      "included": true
+    },
+    {
+      "id": "r02",
+      "category": "experience",
+      "text": "패키지 디자인 및 감리 경험이 있으신 분",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 0.812,
+      "verified": true,
+      "matched_ocr_text": "패키지 디자인 및 감리 BHO! 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r03",
+      "category": "education",
+      "text": "디자인 관련 전공이신 분",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "디자인 관련 전공이신 분",
+      "included": true
+    },
+    {
+      "id": "r04",
+      "category": "skill",
+      "text": "유관 부서와 원활한 커뮤니케이션이 가능하신 분",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "유관 부서와 원활한 커뮤니케이션이 가능하신 분",
+      "included": true
+    },
+    {
+      "id": "r05",
+      "category": "experience",
+      "text": "뷰티/스킨케어 브랜드 디자인 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 0.842,
+      "verified": true,
+      "matched_ocr_text": "뷰티/스킨케어 브랜드 디자인 BHO] 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r06",
+      "category": "experience",
+      "text": "제품 디자인과 함께 VMD 및 공간 연출 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "제품 디자인과 함께 VMD 및 공간 연출 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r07",
+      "category": "experience",
+      "text": "브랜드 촬영 기획 및 현장 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "브랜드 촬영 기획 및 현장 운영 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r08",
+      "category": "experience",
+      "text": "부자재 거래처 협업 및 외주 커뮤니케이션 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 0.833,
+      "verified": true,
+      "matched_ocr_text": "부자재 거래쳐 협업 및 외주 커뮤니케이션 Aol 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r09",
+      "category": "experience",
+      "text": "신제품 디자인부터 양산까지 전반적인 프로세스에 대한 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "신제품 디자인부터 양산까지 전반적인 프로세스에 대한 경험이 있으신 분",
+      "included": true
+    }
+  ]
+}
