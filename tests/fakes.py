@@ -35,10 +35,9 @@ class FakeEmbedder:
 
 
 def make_config(
-    met: float = 0.75,
-    partial: float = 0.55,
-    unmet_cap: bool = True,
-    partial_cap: bool = True,
+    met: float = 0.65,
+    partial: float = 0.35,
+    cap_enabled: bool = True,
 ) -> ScoringConfig:
     """config/scoring.yaml의 임시값에 의존하지 않는 테스트용 설정."""
     return ScoringConfig.model_validate(
@@ -49,8 +48,8 @@ def make_config(
             "status_credit": {"met": 1.0, "partial": 0.5, "unmet": 0.0},
             "years": {"partial_ratio": 0.7},
             "required_cap": {
-                "unmet": {"enabled": unmet_cap, "cap": 40},
-                "partial": {"enabled": partial_cap, "cap": 70},
+                "enabled": cap_enabled,
+                "tiers": [{"below_ratio": 0.5, "cap": 40}, {"below_ratio": 0.8, "cap": 70}],
             },
         }
     )

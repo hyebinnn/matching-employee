@@ -48,14 +48,16 @@ class YearsConfig(_Config):
     partial_ratio: float = Field(gt=0, le=1)
 
 
-class CapRule(_Config):
-    enabled: bool
+class CapTier(_Config):
+    """필수 충족률이 below_ratio 미만이면 cap을 적용한다."""
+
+    below_ratio: float = Field(gt=0, le=1)
     cap: float = Field(ge=0, le=100)
 
 
 class RequiredCap(_Config):
-    unmet: CapRule
-    partial: CapRule
+    enabled: bool
+    tiers: list[CapTier] = Field(min_length=1)
 
 
 class ScoringConfig(_Config):
