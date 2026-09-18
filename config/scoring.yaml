@@ -39,3 +39,15 @@ required_cap:
       cap: 40
     - below_ratio: 0.8
       cap: 70
+
+# 애매 구간 LLM 재판정. 임베딩 유사도가 low~high 사이인 조건만 이력서 전문과 함께 LLM에 다시 묻는다.
+# (임베딩은 "화장품 단상자 그래픽 설계" ↔ "패키지 디자인" 같은 업계 표현 차이를 넘지 못한다)
+# 점수는 여전히 코드가 계산한다. LLM은 met/partial/unmet 판정과 근거 문장만 돌려준다.
+llm_judge:
+  enabled: true
+  model: gpt-5.4-mini
+  band:
+    low: 0.35
+    high: 0.65
+  # LLM이 인용한 근거 문장이 이력서 원문에 실제로 있는지 확인하는 기준
+  evidence_min_similarity: 0.8

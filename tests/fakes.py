@@ -47,6 +47,12 @@ def make_config(
             "weights": {"required": 2.0, "preferred": 1.0},
             "status_credit": {"met": 1.0, "partial": 0.5, "unmet": 0.0},
             "years": {"partial_ratio": 0.7},
+            "llm_judge": {
+                "enabled": False,
+                "model": "fake-llm",
+                "band": {"low": 0.35, "high": 0.65},
+                "evidence_min_similarity": 0.8,
+            },
             "required_cap": {
                 "enabled": cap_enabled,
                 "tiers": [{"below_ratio": 0.5, "cap": 40}, {"below_ratio": 0.8, "cap": 70}],

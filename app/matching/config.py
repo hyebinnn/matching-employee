@@ -60,6 +60,24 @@ class RequiredCap(_Config):
     tiers: list[CapTier] = Field(min_length=1)
 
 
+class Band(_Config):
+    low: float = Field(ge=-1, le=1)
+    high: float = Field(ge=-1, le=1)
+
+    @model_validator(mode="after")
+    def _ordered(self) -> "Band":
+        if self.low > self.high:
+            raise ValueError("llm_judge.band.low는 high 이하여야 함")
+        return self
+
+
+class LlmJudgeConfig(_Config):
+    enabled: bool
+    model: str = Field(min_length=1)
+    band: Band
+    evidence_min_similarity: float = Field(gt=0, le=1)
+
+
 class ScoringConfig(_Config):
     embedding: EmbeddingConfig
     thresholds: Thresholds
@@ -67,6 +85,7 @@ class ScoringConfig(_Config):
     status_credit: StatusCredit
     years: YearsConfig
     required_cap: RequiredCap
+    llm_judge: LlmJudgeConfig
 
 
 def load_config(path: Path = DEFAULT_CONFIG_PATH) -> ScoringConfig:

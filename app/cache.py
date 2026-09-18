@@ -12,6 +12,7 @@ import tempfile
 from pathlib import Path
 
 DEFAULT_CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "cache" / "embeddings"
+DEFAULT_JUDGE_CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "cache" / "judgements"
 
 
 class EmbeddingCache:
@@ -38,3 +39,33 @@ class EmbeddingCache:
         digest = hashlib.sha256(f"{model}\0{text}".encode("utf-8")).hexdigest()
         model_dir = re.sub(r"[^A-Za-z0-9._-]", "_", model)
         return self.root / model_dir / f"{digest}.json"
+
+
+class JsonFileCache:
+    """키(해시 문자열) 하나에 JSON 하나. LLM 판정 결과 캐시에 쓴다."""
+
+    def __init__(self, root: Path = DEFAULT_JUDGE_CACHE_DIR) -> None:
+        self.root = root
+
+    def get(self, key: str) -> dict | None:
+        path = self.root / f"{key}.json"
+        if not path.exists():
+            return None
+        with path.open(encoding="utf-8") as f:
+            return json.load(f)
+
+    def set(self, key: str, value: dict) -> None:
+        self.root.mkdir(parents=True, exist_ok=True)
+        path = self.root / f"{key}.json"
+        fd, tmp = tempfile.mkstemp(dir=self.root, suffix=".tmp")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(value, f, ensure_ascii=False)
+        os.replace(tmp, path)
+
+    @staticmethod
+    def key(*parts: str) -> str:
+        digest = hashlib.sha256()
+        for part in parts:
+            digest.update(part.encode("utf-8"))
+            digest.update(b"\0")
+        return digest.hexdigest()

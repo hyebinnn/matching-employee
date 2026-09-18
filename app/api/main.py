@@ -9,11 +9,12 @@ from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import FileResponse
 
-from app.cache import EmbeddingCache
+from app.cache import EmbeddingCache, JsonFileCache
 from app.domain.models import JobPosting, MatchResult
 from app.matching.config import load_config
 from app.matching.embedder import CachedEmbedder, OpenAIEmbedder
-from app.matching.judge import EmbeddingJudge, YearsJudge
+from app.matching.judge import EmbeddingJudge, RequirementJudge, YearsJudge
+from app.matching.llm_judge import LlmJudge
 from app.matching.service import MatchingService
 from app.repository import JsonRepository
 
@@ -38,7 +39,11 @@ def get_repository() -> JsonRepository:
 def get_service() -> MatchingService:
     config = load_config()
     embedder = CachedEmbedder(OpenAIEmbedder(config.embedding.model), EmbeddingCache())
-    return MatchingService(EmbeddingJudge(embedder, config.thresholds), YearsJudge(config.years), config)
+    text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds)
+    if config.llm_judge.enabled:
+        # 임베딩 판정을 감싸, 애매 구간만 LLM으로 다시 판정한다.
+        text_judge = LlmJudge(text_judge, config.llm_judge, JsonFileCache())
+    return MatchingService(text_judge, YearsJudge(config.years), config)
 
 
 Repository = Annotated[JsonRepository, Depends(get_repository)]

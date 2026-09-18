@@ -72,5 +72,6 @@ uv run python -m app.parsing.cli {job_id} --include r03        # 미검증 조�
 - 지원자: `data/resumes/{job_id}/{candidate_id}.json`
 - 점수 정책(임계값, 가중치, cap): `config/scoring.yaml` — 수정 후 서버 재시작
 - 파싱 설정(비전 모델, 이미지 분할, OCR, 검증 기준): `config/parsing.yaml`
+- LLM 재판정 캐시: `data/cache/judgements/` — (모델, 조건, 이력서) 조합이 같으면 다시 묻지 않음
 - 임베딩 캐시: `data/cache/embeddings/` — 같은 텍스트는 API를 다시 호출하지 않음. 지우면 다음 실행 때 다시 임베딩
 - 지원자 유형 라벨(검증용): `data/expected/{job_id}.json`
