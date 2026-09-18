@@ -128,7 +128,7 @@ class LlmJudge:
             requirement_id=llm.requirement_id,
             status=llm.status,
             judged_by=JudgedBy.LLM,
-            reason=f"LLM 판정: {llm.reason}{note} (임베딩 유사도 {fallback.similarity:.2f}로 애매해 재판정)",
+            reason=f"LLM 판정: {llm.reason}{note} (임베딩 유사도 {fallback.similarity:.2f}: 충족으로 확정되지 않아 재판정)",
             similarity=fallback.similarity,
             evidence=evidence,
         )
