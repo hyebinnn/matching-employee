@@ -1,6 +1,6 @@
 """조건 충족 여부 판정. 판정기는 점수 정책을 모르고 Judgement만 돌려준다.
 
-나중에 애매 구간(partial 근처)만 LLM으로 재판정하는 구현을 같은 프로토콜로 추가할 수 있다.
+같은 프로토콜(RequirementJudge)을 쓰는 LLM 재판정기는 app/matching/llm_judge.py에 있다.
 """
 
 import math

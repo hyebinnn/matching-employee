@@ -42,7 +42,7 @@ def get_service() -> MatchingService:
     embedder = CachedEmbedder(OpenAIEmbedder(config.embedding.model), EmbeddingCache())
     text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds, Lexicon.load())
     if config.llm_judge.enabled:
-        # 임베딩 판정을 감싸, 애매 구간만 LLM으로 다시 판정한다.
+        # 임베딩 판정을 감싸, 충족으로 확정되지 않은 조건만 LLM으로 다시 판정한다.
         text_judge = LlmJudge(text_judge, config.llm_judge, JsonFileCache())
     return MatchingService(text_judge, YearsJudge(config.years), config)
 

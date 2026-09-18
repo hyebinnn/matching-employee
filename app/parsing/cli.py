@@ -17,9 +17,9 @@ from dotenv import load_dotenv
 from PIL import Image
 
 from app.domain.models import JobPosting, Requirement
-from app.ingest.source import LocalImageSource
+from app.ingest.source import JobImageSource, LocalImageSource
 from app.parsing.config import load_parsing_config
-from app.parsing.ocr import TesseractOcr
+from app.parsing.ocr import OcrEngine, TesseractOcr
 from app.parsing.tiler import split_tall_image
 from app.parsing.verify import verify_text
 from app.parsing.vision import VisionParser
@@ -40,7 +40,8 @@ def main(argv: list[str] | None = None) -> int:
         print("config/parsing.yaml의 vision.model을 먼저 설정하세요.", file=sys.stderr)
         return 1
 
-    raw = LocalImageSource().load(args.job_id)
+    source: JobImageSource = LocalImageSource()
+    raw = source.load(args.job_id)
     images = [Image.open(path) for path in raw.image_paths]
     tiles = [tile for image in images for tile in split_tall_image(image, config.tiling.max_height, config.tiling.overlap)]
 
@@ -50,7 +51,7 @@ def main(argv: list[str] | None = None) -> int:
         for i, e in enumerate(extracted, start=1)
     ]
 
-    ocr = TesseractOcr(config.ocr)
+    ocr: OcrEngine = TesseractOcr(config.ocr)
     ocr_text = "\n".join(ocr.read(image) for image in images)
     verifications = {
         r.id: verify_text(r.id, r.text, ocr_text, config.verify.min_similarity) for r in requirements

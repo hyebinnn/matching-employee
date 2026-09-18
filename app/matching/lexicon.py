@@ -14,7 +14,6 @@
 사전이 없으면 아무 일도 하지 않는다 — 직군 무관 동작이 기본이고, 사전은 선택적 강화다.
 """
 
-import json
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field

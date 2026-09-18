@@ -3,7 +3,8 @@
 - 공고: data/jobs/{job_id}.json
 - 지원자: data/resumes/{job_id}/{candidate_id}.json (공고별 폴더)
 
-지금은 손으로 만든 픽스처를 읽지만, 이미지 파싱 결과를 같은 스키마로 저장하면 그대로 교체된다.
+공고 JSON은 app/parsing이 이미지에서 만들어 저장한 결과이고, 지원자 JSON은 손으로 만든 목업이다.
+파일 대신 DB에서 읽더라도 이 클래스만 교체하면 된다.
 """
 
 import json
