@@ -1,0 +1,6 @@
+{
+  "id": "b4_partial_backend_only",
+  "name": "한지우",
+  "years_of_experience": 4,
+  "resume_text": "백엔드 개발자로 4년간 근무했습니다.\n- Java와 Spring Boot로 사내 시스템 API를 개발했습니다.\n- RESTful API를 설계하고 문서화했습니다.\n- MS-SQL과 Oracle에서 대용량 데이터를 처리하고 성능을 개선했습니다.\n- 하루 수백만 건의 트래픽을 처리하는 서비스의 응답 속도를 개선했습니다.\n- Git과 GitLab으로 협업했습니다.\n- 병원 예약 시스템의 서버 개발과 운영을 담당했습니다.\n- 프론트엔드는 담당하지 않았고, 화면 작업은 별도 팀과 협업했습니다."
+}

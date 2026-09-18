@@ -1,0 +1,32 @@
+{
+  "job_id": "barog-developer",
+  "note": "목업 이력서를 만들 때 의도한 유형. 매칭 입력이 아니라 결과 검토용 라벨이다.",
+  "purpose": "holdout",
+  "purpose_note": "임계값 조정에 사용하지 않은 검증용 데이터셋. 다른 두 공고로 맞춘 설정을 그대로 적용해 채점한다.",
+  "candidates": {
+    "b1_perfect_direct": {
+      "type": "perfect",
+      "intent": "공고와 유사한 기술 표현으로 필수·우대 대부분 충족"
+    },
+    "b2_perfect_paraphrase": {
+      "type": "perfect",
+      "intent": "같은 기술을 우회 표현으로 서술 (React/Next.js → '리액트 기반 SSR 프레임워크', MS-SQL → '마이크로소프트 SQL 서버')"
+    },
+    "b3_partial_required_only": {
+      "type": "partial",
+      "intent": "필수는 대체로 충족, 우대는 거의 없음"
+    },
+    "b4_partial_backend_only": {
+      "type": "partial",
+      "intent": "백엔드·우대 조건은 강하지만 프론트엔드 필수 조건 미충족"
+    },
+    "b5_partial_junior": {
+      "type": "partial",
+      "intent": "웹 개발 경험은 있으나 요구 기술 스택 대부분 미충족"
+    },
+    "b6_mismatch": {
+      "type": "mismatch",
+      "intent": "의료 직군 — 전 조건 미충족 기대"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "id": "b1_perfect_direct",
+  "name": "정민서",
+  "years_of_experience": 3,
+  "resume_text": "웹 개발자로 3년간 근무했습니다.\n- HTML, CSS, JavaScript 기반으로 웹 서비스를 개발했습니다.\n- React와 Next.js로 프론트엔드를 구축하고 유지보수했습니다.\n- TypeScript를 도입해 기존 코드를 점진적으로 전환했습니다.\n- Java와 Spring Boot로 백엔드 API를 개발했습니다.\n- RESTful API를 설계하고 개발했습니다.\n- MS-SQL과 MySQL 등 RDBMS를 사용해 쿼리를 작성하고 튜닝했습니다.\n- Git과 GitLab으로 형상관리를 하고 코드 리뷰에 참여했습니다.\n- 사내 웹 서비스를 신규 구축하고 운영했습니다.\n- 검색 노출을 위해 SEO와 웹 성능 최적화를 진행했습니다."
+}

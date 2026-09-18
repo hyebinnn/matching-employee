@@ -1,0 +1,6 @@
+{
+  "id": "b3_partial_required_only",
+  "name": "오세훈",
+  "years_of_experience": 2,
+  "resume_text": "웹 개발자로 2년간 근무했습니다.\n- HTML, CSS, JavaScript로 회사 홈페이지를 개발하고 유지보수했습니다.\n- React로 관리자 화면을 구현했습니다.\n- TypeScript로 컴포넌트 타입을 정의했습니다.\n- Java와 Spring Boot로 백엔드 기능을 개발했습니다.\n- RESTful API를 만들어 프론트엔드와 연동했습니다.\n- MS-SQL에서 테이블을 설계하고 쿼리를 작성했습니다.\n- Git으로 형상관리를 했습니다."
+}

@@ -1,0 +1,106 @@
+{
+  "id": "barog-developer",
+  "title": "바로그의원 웹 개발자",
+  "company": "바로그의원",
+  "source_url": "https://pds.saramin.co.kr/recruit/recruit/202609/01/43cb92_eb7f-e296bc_recruit.png",
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "경력 1년 이상 ~ 5년 이하",
+      "type": "required",
+      "min_years": 1
+    },
+    {
+      "id": "r02",
+      "category": "skill",
+      "text": "HTML, CSS, JavaScript 기반 웹 개발 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r03",
+      "category": "skill",
+      "text": "React / Next.js 기반 프론트엔드 개발 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r04",
+      "category": "skill",
+      "text": "TypeScript 사용 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r05",
+      "category": "skill",
+      "text": "Java / Spring Boot 기반 백엔드 개발 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r06",
+      "category": "skill",
+      "text": "RESTful API 설계 및 개발 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r07",
+      "category": "skill",
+      "text": "MS-SQL 등 RDBMS 사용 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r08",
+      "category": "skill",
+      "text": "Git / GitLab 등 형상관리 및 협업 도구 사용 경험",
+      "type": "required",
+      "min_years": null
+    },
+    {
+      "id": "r09",
+      "category": "experience",
+      "text": "웹 개발 또는 유관 직무 실무 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r10",
+      "category": "experience",
+      "text": "웹 서비스 신규 구축 및 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r11",
+      "category": "experience",
+      "text": "대용량 트래픽 및 웹 서비스 성능 개선 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r12",
+      "category": "skill",
+      "text": "SEO 및 웹 성능 최적화 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r13",
+      "category": "experience",
+      "text": "병원·의료 분야 웹사이트 개발 및 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null
+    },
+    {
+      "id": "r14",
+      "category": "other",
+      "text": "인적성검사 제출 가능한 분",
+      "type": "preferred",
+      "min_years": null
+    }
+  ]
+}

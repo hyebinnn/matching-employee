@@ -1,0 +1,170 @@
+{
+  "job_id": "barog-developer",
+  "vision_model": "gpt-5.4-mini",
+  "ocr": {
+    "lang": "kor+eng",
+    "upscale": 1.0,
+    "psm": 6
+  },
+  "verify": {
+    "min_similarity": 0.8
+  },
+  "image_count": 1,
+  "tile_count": 6,
+  "requirements": [
+    {
+      "id": "r01",
+      "category": "experience",
+      "text": "경력 1년 이상 ~ 5년 이하",
+      "type": "required",
+      "min_years": 1,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "경력 1년 이상 ~ 5년 이하",
+      "included": true
+    },
+    {
+      "id": "r02",
+      "category": "skill",
+      "text": "HTML, CSS, JavaScript 기반 웹 개발 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "HTML, CSS, JavaScript 기반 웹 개발 경험",
+      "included": true
+    },
+    {
+      "id": "r03",
+      "category": "skill",
+      "text": "React / Next.js 기반 프론트엔드 개발 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 0.727,
+      "verified": false,
+      "matched_ocr_text": "경험\n＊ React / 46×[.15 기반 프론트엔드 개발 경험",
+      "included": true
+    },
+    {
+      "id": "r04",
+      "category": "skill",
+      "text": "TypeScript 사용 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 0.786,
+      "verified": false,
+      "matched_ocr_text": "TypeScript AAS 경",
+      "included": true
+    },
+    {
+      "id": "r05",
+      "category": "skill",
+      "text": "Java / Spring Boot 기반 백엔드 개발 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "Java / Spring Boot 기반 백엔드 개발 경험",
+      "included": true
+    },
+    {
+      "id": "r06",
+      "category": "skill",
+      "text": "RESTful API 설계 및 개발 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "RESTful API 설계 및 개발 경험",
+      "included": true
+    },
+    {
+      "id": "r07",
+      "category": "skill",
+      "text": "MS-SQL 등 RDBMS 사용 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 0.933,
+      "verified": true,
+      "matched_ocr_text": "MS-SQL S RDBMS 사용 경험",
+      "included": true
+    },
+    {
+      "id": "r08",
+      "category": "skill",
+      "text": "Git / GitLab 등 형상관리 및 협업 도구 사용 경험",
+      "type": "required",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "Git/GitLab 등 형상관리 및 협업 도구 사용 경험",
+      "included": true
+    },
+    {
+      "id": "r09",
+      "category": "experience",
+      "text": "웹 개발 또는 유관 직무 실무 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 0.944,
+      "verified": true,
+      "matched_ocr_text": "원 개발 또는 유관 직무 실무 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r10",
+      "category": "experience",
+      "text": "웹 서비스 신규 구축 및 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "웹 서비스 신규 구축 및 운영 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r11",
+      "category": "experience",
+      "text": "대용량 트래픽 및 웹 서비스 성능 개선 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "대용량 트래픽 및 웹 서비스 성능 개선 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r12",
+      "category": "skill",
+      "text": "SEO 및 웹 성능 최적화 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 0.941,
+      "verified": true,
+      "matched_ocr_text": "SEO 및 웹 성능 최적화 경혐이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r13",
+      "category": "experience",
+      "text": "병원·의료 분야 웹사이트 개발 및 운영 경험이 있으신 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "병원-의료 분야 웹사이트 개발 및 운영 경험이 있으신 분",
+      "included": true
+    },
+    {
+      "id": "r14",
+      "category": "other",
+      "text": "인적성검사 제출 가능한 분",
+      "type": "preferred",
+      "min_years": null,
+      "ocr_similarity": 1.0,
+      "verified": true,
+      "matched_ocr_text": "인적성검사 제출 가능한 분",
+      "included": true
+    }
+  ]
+}
