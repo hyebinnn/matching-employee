@@ -10,6 +10,7 @@ from app.domain.models import Candidate, JudgedBy, Judgement, MatchStatus, Requi
 from app.matching.chunker import split_sentences
 from app.matching.config import Thresholds, YearsConfig
 from app.matching.embedder import Embedder
+from app.matching.lexicon import Lexicon
 
 # 부동소수점 오차 보정 (예: 25 * 0.28 == 7.000000000000001)
 _EPS = 1e-9
@@ -22,11 +23,16 @@ class RequirementJudge(Protocol):
 
 
 class EmbeddingJudge:
-    """조건 문장과 이력서 문장들의 코사인 유사도 최댓값으로 판정한다."""
+    """조건 문장과 이력서 문장들의 코사인 유사도 최댓값으로 판정한다.
 
-    def __init__(self, embedder: Embedder, thresholds: Thresholds) -> None:
+    용어 사전(Lexicon)이 주어지면 조건 문장의 대체 표현도 함께 비교한다. 사전이 비어 있으면
+    원문만 비교하므로 동작이 달라지지 않는다.
+    """
+
+    def __init__(self, embedder: Embedder, thresholds: Thresholds, lexicon: Lexicon | None = None) -> None:
         self._embedder = embedder
         self._thresholds = thresholds
+        self._lexicon = lexicon or Lexicon()
 
     def judge(self, requirements: list[Requirement], candidate: Candidate) -> list[Judgement]:
         if not requirements:
@@ -43,24 +49,33 @@ class EmbeddingJudge:
                 for r in requirements
             ]
 
-        # 조건과 이력서 문장을 한 번에 임베딩해 API 호출 횟수를 줄인다.
-        vectors = self._embedder.embed([r.text for r in requirements] + chunks)
-        requirement_vectors, chunk_vectors = vectors[: len(requirements)], vectors[len(requirements) :]
+        # 조건(과 사전 변형), 이력서 문장을 한 번에 임베딩해 API 호출 횟수를 줄인다.
+        variants = [self._lexicon.variants(r.text) for r in requirements]
+        texts = [text for group in variants for text, _ in group]
+        vectors = self._embedder.embed(texts + chunks)
+        chunk_vectors = vectors[len(texts) :]
 
-        judgements = []
-        for requirement, req_vec in zip(requirements, requirement_vectors, strict=True):
-            similarities = [cosine(req_vec, chunk_vec) for chunk_vec in chunk_vectors]
-            best = max(range(len(chunks)), key=similarities.__getitem__)
-            similarity = similarities[best]
-            status, reason = self._classify(similarity)
+        judgements, offset = [], 0
+        for requirement, group in zip(requirements, variants, strict=True):
+            best_similarity, best_chunk, used_alias = -1.0, 0, None
+            for (_, alias), vector in zip(group, vectors[offset : offset + len(group)], strict=True):
+                similarities = [cosine(vector, chunk_vector) for chunk_vector in chunk_vectors]
+                index = max(range(len(chunks)), key=similarities.__getitem__)
+                if similarities[index] > best_similarity:
+                    best_similarity, best_chunk, used_alias = similarities[index], index, alias
+            offset += len(group)
+
+            status, reason = self._classify(best_similarity)
+            if used_alias:
+                reason += f" · 용어 사전 적용({used_alias})"
             judgements.append(
                 Judgement(
                     requirement_id=requirement.id,
                     status=status,
                     judged_by=JudgedBy.EMBEDDING,
                     reason=reason,
-                    similarity=similarity,
-                    evidence=chunks[best],
+                    similarity=best_similarity,
+                    evidence=chunks[best_chunk],
                 )
             )
         return judgements

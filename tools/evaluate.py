@@ -28,6 +28,7 @@ from app.domain.models import MatchResult
 from app.matching.config import ScoringConfig, load_config
 from app.matching.embedder import CachedEmbedder, OpenAIEmbedder
 from app.matching.judge import EmbeddingJudge, RequirementJudge, YearsJudge
+from app.matching.lexicon import Lexicon
 from app.matching.llm_judge import LlmJudge
 from app.matching.service import MatchingService
 from app.repository import JsonRepository
@@ -40,7 +41,7 @@ PARTIAL_CANDIDATES = [0.3, 0.35, 0.4, 0.45, 0.5, 0.55]
 
 def build_service(config: ScoringConfig, use_llm: bool) -> MatchingService:
     embedder = CachedEmbedder(OpenAIEmbedder(config.embedding.model), EmbeddingCache())
-    text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds)
+    text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds, Lexicon.load())
     if use_llm and config.llm_judge.enabled:
         text_judge = LlmJudge(text_judge, config.llm_judge, JsonFileCache())
     return MatchingService(text_judge, YearsJudge(config.years), config)

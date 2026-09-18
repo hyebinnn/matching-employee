@@ -14,6 +14,7 @@ from app.domain.models import JobPosting, MatchResult
 from app.matching.config import load_config
 from app.matching.embedder import CachedEmbedder, OpenAIEmbedder
 from app.matching.judge import EmbeddingJudge, RequirementJudge, YearsJudge
+from app.matching.lexicon import Lexicon
 from app.matching.llm_judge import LlmJudge
 from app.matching.service import MatchingService
 from app.repository import JsonRepository
@@ -39,7 +40,7 @@ def get_repository() -> JsonRepository:
 def get_service() -> MatchingService:
     config = load_config()
     embedder = CachedEmbedder(OpenAIEmbedder(config.embedding.model), EmbeddingCache())
-    text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds)
+    text_judge: RequirementJudge = EmbeddingJudge(embedder, config.thresholds, Lexicon.load())
     if config.llm_judge.enabled:
         # 임베딩 판정을 감싸, 애매 구간만 LLM으로 다시 판정한다.
         text_judge = LlmJudge(text_judge, config.llm_judge, JsonFileCache())
