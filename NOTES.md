@@ -73,4 +73,4 @@ uv run python -m app.parsing.cli {job_id} --include r03        # 미검증 조�
 - 점수 정책(임계값, 가중치, cap): `config/scoring.yaml` — 수정 후 서버 재시작
 - 파싱 설정(비전 모델, 이미지 분할, OCR, 검증 기준): `config/parsing.yaml`
 - 임베딩 캐시: `data/cache/embeddings/` — 같은 텍스트는 API를 다시 호출하지 않음. 지우면 다음 실행 때 다시 임베딩
-- `fixture_` 접두사 데이터는 파이프라인 확인용 임시 데이터 (제출용 목업 이력서 아님)
+- 지원자 유형 라벨(검증용): `data/expected/{job_id}.json`
