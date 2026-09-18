@@ -1,0 +1,30 @@
+{
+  "job_id": "japan-ecommerce",
+  "note": "목업 이력서를 만들 때 의도한 유형. 매칭 입력이 아니라 결과 검토·임계값 조정용 라벨이다.",
+  "candidates": {
+    "j1_perfect_direct": {
+      "type": "perfect",
+      "intent": "공고와 유사한 표현으로 필수·우대 전부 충족"
+    },
+    "j2_perfect_paraphrase": {
+      "type": "perfect",
+      "intent": "같은 경험을 다른 표현으로 서술 (Rakuten Ichiba, JLPT N1 등)"
+    },
+    "j3_partial_required_only": {
+      "type": "partial",
+      "intent": "필수는 충족, 우대는 미충족"
+    },
+    "j4_partial_no_japanese": {
+      "type": "partial",
+      "intent": "일본어 필수 조건 미충족, 우대는 충족 (cap 동작 확인용)"
+    },
+    "j5_partial_low_years": {
+      "type": "partial",
+      "intent": "경력 2년으로 요구 3년 미달"
+    },
+    "j6_mismatch": {
+      "type": "mismatch",
+      "intent": "건설 안전관리 직군 — 전 조건 미충족 기대"
+    }
+  }
+}

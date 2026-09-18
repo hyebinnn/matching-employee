@@ -1,0 +1,30 @@
+{
+  "job_id": "designer",
+  "note": "목업 이력서를 만들 때 의도한 유형. 매칭 입력이 아니라 결과 검토·임계값 조정용 라벨이다.",
+  "candidates": {
+    "d1_perfect_direct": {
+      "type": "perfect",
+      "intent": "공고와 유사한 표현으로 필수·우대 전부 충족"
+    },
+    "d2_perfect_paraphrase": {
+      "type": "perfect",
+      "intent": "같은 경험을 다른 표현으로 서술 (의미 기반 매칭 확인용)"
+    },
+    "d3_partial_required_only": {
+      "type": "partial",
+      "intent": "필수는 충족, 우대는 대부분 미충족"
+    },
+    "d4_partial_missing_major": {
+      "type": "partial",
+      "intent": "필수 중 전공 조건만 미충족, 우대는 다수 충족 (cap 동작 확인용)"
+    },
+    "d5_partial_low_years": {
+      "type": "partial",
+      "intent": "인접 직무 + 경력 4년으로 요구 5년 미달 (연차 partial 확인용)"
+    },
+    "d6_mismatch": {
+      "type": "mismatch",
+      "intent": "회계 직군 — 전 조건 미충족 기대"
+    }
+  }
+}
